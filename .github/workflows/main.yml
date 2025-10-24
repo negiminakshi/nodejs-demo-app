@@ -31,11 +31,12 @@ jobs:
       - name: Run tests
         run: npm test || echo "No tests configured"
 
-      # 5. Debug Docker login (verify secrets)
-      - name: Debug Docker login
-        run: |
-          echo "Docker username: ${{ secrets.DOCKERHUB_USERNAME }}"
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      # 5. Log in to Docker Hub (non-interactive)
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # 6. Build Docker image
       - name: Build Docker image
