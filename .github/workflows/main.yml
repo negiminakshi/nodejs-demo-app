@@ -46,15 +46,4 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest
 
-      # 8. Deploy to EC2
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY }}
-          script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest
-            docker stop my-node-app || true
-            docker rm my-node-app || true
-            docker run -d -p 3000:3000 --name my-node-app ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest
+      
